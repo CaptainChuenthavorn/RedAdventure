@@ -3,10 +3,10 @@
 #include <stdio.h>
 #include<windows.h>
 #include<conio.h>
-void clrscr();
+//void clrscr();
 void erase_ship(int , int); 
 void draw_ship(int ,int);
-void gotoxy(int, int);
+//void gotoxy(int, int);
 int main()
 {
 		char ch = ' ';
@@ -16,26 +16,22 @@ int main()
 			if (_kbhit()) {
 				ch = _getch();
 				if (ch == 'a') {
-					system("cls");
 					draw_ship(--x, y);
+					erase_ship(x + 5, y);
 				}
 				if (ch == 'd') { 
-					system("cls");
 					draw_ship(++x, y);
+					erase_ship(x - 5, y);
 				}
 				if (ch == 'w') {
-					system("cls");
-					
+				
 					draw_ship(x, --y);
+					erase_ship(x, y + 1);
 				}
 				if (ch == 's') {
-					system("cls");
+					
 					draw_ship(x, ++y);
-				}if (x = 0)
-				{
-					system("cls");
-					x = 0;
-					draw_ship(x, y);
+					erase_ship(x, y - 1);
 				}
 				fflush(stdin);
 				
@@ -49,15 +45,10 @@ void draw_ship(int x, int y) {
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
 	printf("<-o->");
 }
-void gotoxy(int x, int y) 
-{
-	COORD c = { x, y };
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
-}
 void erase_ship(int x, int y) {
-	printf("    ");
 	COORD c = { x, y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
+	printf("     ");
 }
 /*
 void clrscr()
