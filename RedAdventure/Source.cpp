@@ -13,21 +13,31 @@ int main()
 		int x = 5, y = 20;
 		draw_ship(x, y);
 		do {
-			if (_kbhit() && x>=0 &&x<=80) {
+			if (_kbhit() && x >= 0 && x <= 80) {
 				ch = _getch();
 				if (ch == 'a') { //clrscr();
-				draw_ship(--x, y); }
+					system("cls");
+					draw_ship(--x, y);
+				}
 				if (ch == 'd') { //clrscr();
-				draw_ship(++x, y); }
-				if (ch == 'w') { 
-
+					system("cls");
+					draw_ship(++x, y);
+				}
+				if (ch == 'w') {
+					system("cls");
 					//clrscr();
 					draw_ship(x, --y);
 				}
 				if (ch == 's') { //clrscr();
-				draw_ship(x, ++y); }
+					system("cls");
+					draw_ship(x, ++y);
+				}
 				fflush(stdin);
-				if (x < 0) x = 0;
+				if (x < 0)
+				{
+					x = 0;
+					draw_ship(x, y);
+				}
 				if (x > 80) x = 80;
 			}
 			Sleep(50);
@@ -49,8 +59,8 @@ void erase_ship(int x, int y) {
 	COORD c = { x, y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
 }
-
+/*
 void clrscr()
 {
 	system("@cls||clear");
-}
+}*/
