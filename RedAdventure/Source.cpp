@@ -10,31 +10,52 @@ void draw_ship(int ,int);
 int main()
 {
 		char ch = ' ';
-		int x = 5, y = 20;
+		int x = 75, y = 2;
 		draw_ship(x, y);
 		do {
 			if (_kbhit()) {
 				ch = _getch();
 				if (ch == 'a') {
+					erase_ship(x, y);
 					draw_ship(--x, y);
-					erase_ship(x + 5, y);
+					
 				}
 				if (ch == 'd') { 
+					erase_ship(x, y);
 					draw_ship(++x, y);
-					erase_ship(x - 5, y);
+					
 				}
 				if (ch == 'w') {
-				
+					erase_ship(x, y);
 					draw_ship(x, --y);
-					erase_ship(x, y + 1);
+					
 				}
 				if (ch == 's') {
-					
+					erase_ship(x, y);
 					draw_ship(x, ++y);
-					erase_ship(x, y - 1);
+					
 				}
 				fflush(stdin);
-				
+				if (x < 0) {
+					erase_ship(x+6, y);
+					x = 0;
+					draw_ship(x, y);
+				}
+				if (x > 80) {
+					erase_ship(x , y);
+					x = 80;
+					draw_ship(x, y);
+				}
+				if (y < 0) {
+					erase_ship(x + 5, y+1);
+					y = 0;
+					draw_ship(x, y);
+				}
+				if (y > 80) {
+					erase_ship(x, y);
+					y = 80;
+					draw_ship(x, y);
+				}
 			}
 			Sleep(100);
 		} while (ch != 'x');
