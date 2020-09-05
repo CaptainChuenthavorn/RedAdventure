@@ -13,34 +13,34 @@ int main()
 		int x = 5, y = 20;
 		draw_ship(x, y);
 		do {
-			if (_kbhit() && x >= 0 && x <= 80) {
+			if (_kbhit()) {
 				ch = _getch();
-				if (ch == 'a') { //clrscr();
+				if (ch == 'a') {
 					system("cls");
 					draw_ship(--x, y);
 				}
-				if (ch == 'd') { //clrscr();
+				if (ch == 'd') { 
 					system("cls");
 					draw_ship(++x, y);
 				}
 				if (ch == 'w') {
 					system("cls");
-					//clrscr();
+					
 					draw_ship(x, --y);
 				}
-				if (ch == 's') { //clrscr();
+				if (ch == 's') {
 					system("cls");
 					draw_ship(x, ++y);
-				}
-				fflush(stdin);
-				if (x < 0)
+				}if (x = 0)
 				{
+					system("cls");
 					x = 0;
 					draw_ship(x, y);
 				}
-				if (x > 80) x = 80;
+				fflush(stdin);
+				
 			}
-			Sleep(50);
+			Sleep(100);
 		} while (ch != 'x');
 		return 0;
 }
