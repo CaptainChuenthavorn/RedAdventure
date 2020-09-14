@@ -7,13 +7,15 @@ void draw_ship(int ,int);
 void erase_ship(int, int);
 void draw_bullet(int , int );
 void clear_bullet(int , int );
-
+void setcursor(bool);
+void setcolor(int fg, int bg);
 int main()
 {
 		char ch = ' ';
 		int x = 20, y = 5;
 		int bx, by, i;
 		int bullet = 0;
+		setcursor(0);
 		draw_ship(x, y);
 		do {
 			if (_kbhit()) {
@@ -89,4 +91,17 @@ void draw_bullet(int x, int y) {
 void clear_bullet(int x, int y) {
 	gotoxy(x, y);
 	printf("");
+}
+void setcursor(bool visible)
+{
+	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_CURSOR_INFO lpCursor;
+	lpCursor.bVisible = visible;
+	lpCursor.dwSize = 20;
+	SetConsoleCursorInfo(console, &lpCursor);
+}
+void setcolor(int fg, int bg)
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, bg * 16 + fg);
 }
