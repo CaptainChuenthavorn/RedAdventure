@@ -9,6 +9,7 @@ void draw_bullet(int , int );
 void clear_bullet(int , int );
 void setcursor(bool);
 void setcolor(int fg, int bg);
+void jump(int x, int y);
 int main()
 {
 		char ch = ' ';
@@ -36,7 +37,12 @@ int main()
 					erase_ship(x, y);
 					draw_ship(x, ++y);
 				}
-				if (bullet != 1 && ch == ' ') {
+				if (ch == ' ') {
+					jump(x, y);
+					erase_ship(x, y);
+					draw_ship(x, y);
+				}
+				if (bullet != 1 && ch == 'k') {
 					bullet = 1;
 					bx = x + 3;
 					by = y - 1;
@@ -84,6 +90,14 @@ void draw_ship(int x, int y) {
 void erase_ship(int x, int y) {
 	gotoxy(x, y);
 	printf("     ");
+}
+void jump(int x, int y) {
+	//for (int i = 0;i < 3;i++) {
+		erase_ship(x, y); 
+		draw_ship(++x, --y);
+		erase_ship(x, y);
+		draw_ship(x, y);
+		//}
 }
 void draw_bullet(int x, int y) {
 	gotoxy(x, y); printf("^");
