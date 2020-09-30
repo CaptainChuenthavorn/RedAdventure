@@ -1,4 +1,4 @@
-/*#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 #include<stdio.h>
 #include<windows.h>
 #include<conio.h>
@@ -10,31 +10,41 @@ void clear_bullet(int , int );
 void setcursor(bool);
 void setcolor(int fg, int bg);
 void jump(int x, int y);
+void erasecolor(int fg, int bg);
 int main()
 {
 		char ch = ' ';
 		int x = 20, y = 5;
 		int bx, by, i;
 		int bullet = 0;
+		setcolor(4, 2);
 		setcursor(0);
 		draw_ship(x, y);
 		do {
 			if (_kbhit()) {
 				ch = _getch();
 				if (ch == 'a') {
+					erasecolor(0,0);
 					erase_ship(x, y);
+					setcolor(4, 2);
 					draw_ship(--x, y);
 				}
 				if (ch == 'd') { 
+					erasecolor(0, 0);
 					erase_ship(x, y);
+					setcolor(4, 2);
 					draw_ship(++x, y);
 				}
 				if (ch == 'w') {
+					erasecolor(0, 0);
 					erase_ship(x, y);
+					setcolor(4, 2);
 					draw_ship(x, --y);
 				}
 				if (ch == 's') {
+					erasecolor(0, 0);
 					erase_ship(x, y);
+					setcolor(4, 2);
 					draw_ship(x, ++y);
 				}
 				if (ch == ' ') {
@@ -47,6 +57,7 @@ int main()
 					bx = x + 3;
 					by = y - 1;
 				}
+				setcolor(4, 2);
 				fflush(stdin);
 
 				if (bullet == 1) {
@@ -104,7 +115,7 @@ void draw_bullet(int x, int y) {
 }
 void clear_bullet(int x, int y) {
 	gotoxy(x, y);
-	printf("");
+	printf(" ");
 }
 void setcursor(bool visible)
 {
@@ -119,4 +130,10 @@ void setcolor(int fg, int bg)
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, bg * 16 + fg);
 }
-*/
+void erasecolor(int fg, int bg)
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, bg * 16 + fg);
+	printf("     ");
+}
+

@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+﻿/*#define _CRT_SECURE_NO_WARNINGS
 #include<stdio.h>
 #include<windows.h>
 #include<conio.h>
@@ -32,7 +32,7 @@ int main()
 			if (ch == 'a') {
 				erase_ship(x, y);
 				draw_ship(--x, y);
-				erase_setcolor(2, 4);
+				erase_setcolor(2, 0);
 			}
 			if (ch == 'd') {
 				erase_ship(x, y);
@@ -51,9 +51,8 @@ int main()
 				bx = x + 3;
 				by = y - 1;
 			}
-			erase_setcolor(2, 4);
+			erase_setcolor(2, 0);
 			fflush(stdin);
-			erase_setcolor(2, 4);
 			if (bullet == 1) {
 				clear_bullet(bx, by);
 				if (by == 2) { bullet = 0; }
@@ -80,10 +79,7 @@ int main()
 				draw_ship(x, y);
 			}
 		}
-		erase_setcolor(2, 4);
-		
 		Sleep(100);
-		erase_setcolor(2, 4);
 	} while (ch != 'x');
 	return 0;
 }
@@ -93,18 +89,30 @@ void gotoxy(int x, int y) {
 }
 void draw_ship(int x, int y) {
 	gotoxy(x, y);
-	printf("<-o->");
+	printf("(_(._.)_)\n");
+	gotoxy(x, ++y);
+	printf(" |     |\n");
+	gotoxy(x, ++y);
+	printf(" |     |\n");
+	gotoxy(x, ++y);
+	printf(" -------");
 }
 void erase_ship(int x, int y) {
 	gotoxy(x, y);
-	printf("     ");
+	printf("         \n");
+	gotoxy(x, ++y);
+	printf("        \n");
+	gotoxy(x, ++y);
+	printf("        \n");
+	gotoxy(x, ++y);
+	printf("        ");
 }
 void draw_bullet(int x, int y) {
 	gotoxy(x, y); printf("^");
 }
 void clear_bullet(int x, int y) {
 	gotoxy(x, y);
-	printf("");
+	printf(" ");
 }
 void setcursor(bool visible)
 {
@@ -123,4 +131,4 @@ void erase_setcolor(int fg, int bg)
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, bg * 16 + fg);
-}
+}*/
