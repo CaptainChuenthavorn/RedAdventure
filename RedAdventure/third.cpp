@@ -10,11 +10,11 @@ void setcolor(int, int );
 void erasecolor(int, int);
 void Frame_ship(int, int);
 void draw_bullet(int, int);
-void erase_ship(int, int);
+void clear_bullet(int, int);
 int main()
 {
 		char ch = ' ';
-		int x = 20, y = 5, direction = 0,bullet = 0;
+		int x = 20, y = 20, direction = 0,bullet = 0,Bx=x+2,By=y-1;
 		setcolor(4, 2);
 		setcursor(0);
 		draw_ship(x, y);
@@ -56,7 +56,28 @@ int main()
 				draw_ship(x, y);
 			}
 			if (bullet == 1) {
-
+				Bx = x + 2, By = y - 1;
+				
+				while (By != 0 ) {
+					erasecolor(0, 0);
+					clear_bullet(Bx, By);
+					setcolor(4, 2);
+					draw_bullet(Bx, --By);
+					
+					if (By == 0) {
+						erasecolor(0, 0);
+						clear_bullet(Bx, By);
+						setcolor(4, 2);
+						draw_bullet(Bx, By);
+						Sleep(50);
+						erasecolor(0, 0);
+						clear_bullet(Bx, By);
+						setcolor(4, 2);
+					}
+					Sleep(50);
+				}
+				bullet--;
+				
 			}
 			if (x < 0) {		 //if out of monitor x<0
 				erasecolor(0, 0);
@@ -99,12 +120,15 @@ void erase_ship(int x, int y) {
 	printf("     ");
 }
 
-void draw_bullet(int x, int y) {
-	gotoxy(x, y); printf("^");
+void draw_bullet(int Bx, int By) {
+	gotoxy(Bx, By); 
+	//erasecolor(0, 0);
+	//setcolor(4, 2);
+	printf("^");
 }
-void clear_bullet(int x, int y) {
-	gotoxy(x, y);
-	printf(" ");
+void clear_bullet(int Bx, int By) {
+	gotoxy(Bx, By);
+	printf("   ");
 }
 void setcursor(bool visible)
 {
