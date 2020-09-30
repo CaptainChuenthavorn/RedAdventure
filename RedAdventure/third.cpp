@@ -6,13 +6,15 @@
 void draw_ship(int ,int);
 void erase_ship(int, int);
 void setcursor(bool);
-void setcolor(int fg, int bg);
-void erasecolor(int fg, int bg);
-void Frame_ship(int x, int y);
+void setcolor(int, int );
+void erasecolor(int, int);
+void Frame_ship(int, int);
+void draw_bullet(int, int);
+void erase_ship(int, int);
 int main()
 {
 		char ch = ' ';
-		int x = 20, y = 5, direction = 0;
+		int x = 20, y = 5, direction = 0,bullet = 0;
 		setcolor(4, 2);
 		setcursor(0);
 		draw_ship(x, y);
@@ -27,6 +29,9 @@ int main()
 				}
 				if (ch == 's') {
 					direction = 0;
+				}
+				if (ch == ' ') {
+					bullet = 1;
 				}
 				setcolor(4, 2);
 				fflush(stdin);
@@ -49,6 +54,9 @@ int main()
 				erase_ship(x, y);
 				
 				draw_ship(x, y);
+			}
+			if (bullet == 1) {
+
 			}
 			if (x < 0) {		 //if out of monitor x<0
 				erasecolor(0, 0);
