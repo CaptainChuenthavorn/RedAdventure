@@ -6,11 +6,12 @@
 void gotoxy(int x, int y);
 void draw_ship(int ,int);
 void erase_ship(int, int);
-//void setcursor(bool);
+void setcursor(bool);
 void setcolor(int, int );
 void erasecolor(int, int);
 void draw_bullet(int, int);
 void clear_bullet(int, int);
+void erasecolorBullet(int, int);
 void drawStar(int x, int y) {
 	gotoxy(x, y), printf("*");
 }
@@ -31,7 +32,7 @@ int main()
 	}
 	draw_ship(x, y);
 	setcolor(4, 2);
-	//setcursor(0);
+	setcursor(0);
 	draw_ship(x, y);
 	do {
 		if (_kbhit()) {
@@ -70,17 +71,17 @@ int main()
  		if (bullet == 1 && ammo >0 ) { // bullet = 0 mean OFF ,bulet = 1 mean ON
 			Bx = x + 2, By = y - 1;
 			while (By != 0) {
-				erasecolor(0, 0);
+				erasecolorBullet(0, 0);
 				clear_bullet(Bx, By);
 				setcolor(4, 2);
 				draw_bullet(Bx, --By);
 				if (By == 0) {				// if bullet at top
-					erasecolor(0, 0);
+					erasecolorBullet(0, 0);
 					clear_bullet(Bx, By);
 					setcolor(4, 2);
 					draw_bullet(Bx, By);
 					Sleep(50);
-					erasecolor(0, 0);
+					erasecolorBullet(0, 0);
 					clear_bullet(Bx, By);
 					setcolor(4, 2);
 				}
@@ -99,12 +100,14 @@ int main()
 					draw_ship(x, y);
 				}
 			/*if (direction == 1) {		// direction = 1 mean left
+				erasecolorBullet(0, 0);
 				erasecolor(0, 0);
 				erase_ship(x, y);
 				setcolor(4, 2);
 				draw_ship(--x, y);
-			}
+			} 
 			if (direction == 2) {		// direction = 2 mean right
+				erasecolorBullet(0, 0);
 				erasecolor(0, 0);
 				erase_ship(x, y);
 				setcolor(4, 2);
@@ -170,14 +173,14 @@ void clear_bullet(int Bx, int By) {
 	gotoxy(Bx, By);
 	printf(" ");
 }
-/*void setcursor(bool visible)
+void setcursor(bool visible)
 {
 	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_CURSOR_INFO lpCursor;
 	lpCursor.bVisible = visible;
 	lpCursor.dwSize = 20;
 	SetConsoleCursorInfo(console, &lpCursor);
-}*/
+}
 void setcolor(int fg, int bg)
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -188,4 +191,10 @@ void erasecolor(int fg, int bg)
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, bg * 16 + fg);
 	printf("     ");
+}
+void erasecolorBullet(int fg, int bg)
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, bg * 16 + fg);
+	printf("");
 }
