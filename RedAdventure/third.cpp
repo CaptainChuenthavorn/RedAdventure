@@ -1,9 +1,9 @@
-/*#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 #include<stdio.h>
 #include<windows.h>
 #include<conio.h>
 #include<time.h>
-void gotoxy(int x, int y);
+void gotoxy(int , int );
 void draw_ship(int ,int);
 void erase_ship(int, int);
 void setcursor(bool);
@@ -12,9 +12,9 @@ void erasecolor(int, int);
 void draw_bullet(int, int);
 void clear_bullet(int, int);
 void erasecolorBullet(int, int);
-void drawStar(int x, int y) {
-	gotoxy(x, y), printf("*");
-}
+void drawStar(int, int);
+char cursor(int, int);
+void eraseStar(int, int);
 int main()
 {
 	char ch = ' ';
@@ -68,7 +68,46 @@ int main()
 			erase_ship(x, y);
 			draw_ship(x, y);
 		}
- 		if (bullet == 1 && ammo >0 ) { // bullet = 0 mean OFF ,bulet = 1 mean ON
+		if (bullet == 1 && ammo > 0) { // bullet = 0 mean OFF ,bulet = 1 mean ON
+			Bx = x + 2, By = y - 1;
+			while (By != 1) {
+				erasecolorBullet(0, 0);
+				clear_bullet(Bx, By);
+				setcolor(4, 2);
+				//Beep(800, 100);
+				draw_bullet(Bx, --By);
+				if (By == 1 ) {				// if bullet at top
+					bullet = 0;
+					erasecolorBullet(0, 0);
+					clear_bullet(Bx, By);
+					setcolor(4, 2);
+					draw_bullet(Bx, By);
+					Sleep(50);
+					erasecolorBullet(0, 0);
+					clear_bullet(Bx, By);
+					setcolor(4, 2);
+				}
+				else if (cursor(Bx, By-1) == '*') {
+					Beep(800, 200);
+					erasecolorBullet(0, 0);
+					clear_bullet(Bx, By);
+					eraseStar(Bx, By - 1);
+					break;
+					}
+				else { 
+					/*if (cursor(Bx, By - 1) == '*') {
+						Beep(800, 200);
+						erasecolorBullet(0, 0);
+						clear_bullet(Bx, By);
+						eraseStar(Bx, By - 1);
+						break;
+					}*/
+					erasecolorBullet(0, 0);
+					clear_bullet(Bx, By);
+					setcolor(4, 2);
+					draw_bullet(Bx, --By); 
+				}
+ 		/*if (bullet == 1 && ammo >0 ) { // bullet = 0 mean OFF ,bulet = 1 mean ON
 			Bx = x + 2, By = y - 1;
 			while (By != 0) {
 				erasecolorBullet(0, 0);
@@ -98,7 +137,7 @@ int main()
 					x = 80;
 					setcolor(4, 2);
 					draw_ship(x, y);
-				}
+				}*/
 			/*if (direction == 1) {		// direction = 1 mean left
 				erasecolorBullet(0, 0);
 				erasecolor(0, 0);
@@ -197,4 +236,20 @@ void erasecolorBullet(int fg, int bg)
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, bg * 16 + fg);
 	printf("");
-}*/
+}
+void drawStar(int x, int y) {
+	gotoxy(x, y), printf("*");
+}
+void eraseStar(int x, int y) {
+	gotoxy(x, y), printf(" ");
+}
+char cursor(int x, int y) {
+	HANDLE hStd = GetStdHandle(STD_OUTPUT_HANDLE);
+	char buf[2]; COORD c = { x,y }; DWORD num_read;
+	if (
+		!ReadConsoleOutputCharacter(hStd, (LPTSTR)buf, 1, c, (LPDWORD)&num_read))
+
+		return '\0';
+	else
+		return buf[0];
+}

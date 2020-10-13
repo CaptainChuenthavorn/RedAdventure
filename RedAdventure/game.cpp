@@ -1,4 +1,4 @@
-﻿#include<stdio.h>
+﻿/*#include<stdio.h>
 #include<windows.h>
 #include<time.h>
 #include<conio.h>
@@ -52,7 +52,9 @@ int main() {
 
 			clear_bullet(bx, by);
 			if (by == 2) { bullet = 0; }
-			else { draw_bullet(bx, --by); }
+			else { 
+				Beep(700, 100);
+				draw_bullet(bx, --by); }
 
 		}
 		Sleep(100);
@@ -68,4 +70,4 @@ char cursor(int x, int y) {
 		return '\0';
 	else
 		return buf[0];
-}
+}*/
