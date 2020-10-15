@@ -22,7 +22,10 @@ void clear_bullet(int x, int y)
 void drawStar(int x,int y) {
 	gotoxy(x, y), printf("*");
 }
-
+void eraseStar(int x, int y) {
+	gotoxy(x, y); printf(" ");
+}
+char cursor(int x, int y);
 int main() {
 	char ch = '.';
 	int x = 38, y = 20;
@@ -44,8 +47,10 @@ int main() {
 		if (_kbhit()) {
 			ch = _getch();
 			if (ch == 'a') { draw_ship(--x, y); }
-			if (ch == 's') { draw_ship(++x, y); }
-			if (bullet != 1 && ch == ' ') { bullet = 1; bx = x + 3; by = y - 1; }
+			if (ch == 'd') { draw_ship(++x, y); }
+			if (bullet != 1 && ch == ' ') { 
+				bullet = 1; bx = x + 2; by = y - 1; 
+			}
 			fflush(stdin);
 		}
 		if (bullet == 1) {
@@ -53,6 +58,19 @@ int main() {
 			clear_bullet(bx, by);
 			if (by == 2) { bullet = 0; }
 			else { 
+				if (cursor(bx, by - 1) == '*') {
+				
+					
+					clear_bullet(bx, by);
+					eraseStar(bx, by - 1);
+					randY = rand() % 4 + 2;
+					randX = rand() % 60 + 10;
+					drawStar(randX, randY);
+					randX = 0;
+					randY = 0;
+					bullet = 0;				
+					
+				}
 				Beep(700, 100);
 				draw_bullet(bx, --by); }
 

@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+/*#define _CRT_SECURE_NO_WARNINGS
 #include<stdio.h>
 #include<windows.h>
 #include<conio.h>
@@ -19,8 +19,9 @@ int main()
 {
 	char ch = ' ';
 	int x = 20, y = 20, direction = 0, bullet = 0, Bx = x + 2, By = y - 1,ammo=10000;
-	int  randX = 0, randY = 0;
-	setcolor(6, 0);
+	int  randX = 0, randY = 0,score=0;
+	//setcolor(6, 0);
+	printf("Score : %d", score);
 	srand(time(NULL));
 	for (int round = 0; round < 20; round++)
 	{
@@ -37,17 +38,11 @@ int main()
 	do {
 		if (_kbhit()) {
 			ch = _getch();
-			if (ch == 'a') {
-				direction = 1;
-			}
-			if (ch == 'd') {
-				direction = 2;
-			}
-			if (ch == 's') {
-				direction = 0;
-			}
+			if (ch == 'a') { direction = 1; }
+			if (ch == 'd') { direction = 2; }
+			if (ch == 's') { direction = 0; }
 			if (ch == ' ') {
-				bullet = 1;
+				bullet = 1; Bx = x + 2, By = y - 1;
 			}
 			setcolor(4, 2);
 			fflush(stdin);
@@ -74,94 +69,51 @@ int main()
 				erasecolorBullet(0, 0);
 				clear_bullet(Bx, By);
 				setcolor(4, 2);
-				//Beep(800, 100);
 				draw_bullet(Bx, --By);
-				if (By == 1 ) {				// if bullet at top
+				if (By == 1) {				// if bullet at top
 					bullet = 0;
 					erasecolorBullet(0, 0);
 					clear_bullet(Bx, By);
-					setcolor(4, 2);
-					draw_bullet(Bx, By);
-					Sleep(50);
+					/*setcolor(4, 2);
+					draw_bullet(Bx, --By);
+					Sleep(100);
 					erasecolorBullet(0, 0);
 					clear_bullet(Bx, By);
 					setcolor(4, 2);
 				}
-				else if (cursor(Bx, By-1) == '*') {
-					Beep(800, 200);
-					erasecolorBullet(0, 0);
-					clear_bullet(Bx, By);
-					eraseStar(Bx, By - 1);
-					break;
-					}
-				else { 
-					/*if (cursor(Bx, By - 1) == '*') {
-						Beep(800, 200);
+				else {
+					if (cursor(Bx, By - 1) == '*') {
+						//Beep(800, 200);
 						erasecolorBullet(0, 0);
 						clear_bullet(Bx, By);
-						eraseStar(Bx, By - 1);
-						break;
-					}*/
-					erasecolorBullet(0, 0);
-					clear_bullet(Bx, By);
-					setcolor(4, 2);
-					draw_bullet(Bx, --By); 
-				}
- 		/*if (bullet == 1 && ammo >0 ) { // bullet = 0 mean OFF ,bulet = 1 mean ON
-			Bx = x + 2, By = y - 1;
-			while (By != 0) {
+						eraseStar(Bx, By);
+						do {
+							randY = rand() % 4 + 2;
+							randX = rand() % 60 + 10;
+						} while (cursor(randX, randY)!='*');
+						setcolor(4, 2);
+						drawStar(randX, randY);
+						randX = 0;
+						randY = 0;
+						bullet = 0;
+						score++;
+						gotoxy(0, 0);
+						//setcolor(6, 0);
+						printf("Score : %d", score);
+					}
 				erasecolorBullet(0, 0);
 				clear_bullet(Bx, By);
 				setcolor(4, 2);
 				draw_bullet(Bx, --By);
-				if (By == 0) {				// if bullet at top
-					erasecolorBullet(0, 0);
-					clear_bullet(Bx, By);
-					setcolor(4, 2);
-					draw_bullet(Bx, By);
-					Sleep(50);
-					erasecolorBullet(0, 0);
-					clear_bullet(Bx, By);
-					setcolor(4, 2);
 				}
-				if (x < 0) {		 //if ship out of monitor left
-					erasecolor(0, 0);
-					erase_ship(x + 6, y);
-					setcolor(4, 2);
-					x = 0;
-					draw_ship(x, y);
-				}
-				if (x > 80) {        //if ship out of monitor right
-					erasecolor(0, 0);
-					erase_ship(x, y);
-					x = 80;
-					setcolor(4, 2);
-					draw_ship(x, y);
-				}*/
-			/*if (direction == 1) {		// direction = 1 mean left
-				erasecolorBullet(0, 0);
-				erasecolor(0, 0);
-				erase_ship(x, y);
-				setcolor(4, 2);
-				draw_ship(--x, y);
-			} 
-			if (direction == 2) {		// direction = 2 mean right
-				erasecolorBullet(0, 0);
-				erasecolor(0, 0);
-				erase_ship(x, y);
-				setcolor(4, 2);
-				draw_ship(++x, y);
-			}
-			if (direction == 0) {		// direction = 0 mean stop
-				erase_ship(x, y);
-				draw_ship(x, y);
-			}*/
-			Sleep(50);
+				Sleep(100);
 			}
 			ammo--;
 			bullet = 0;
-		} 
-		{
+			erasecolorBullet(0, 0);
+			clear_bullet(Bx, By);
+		}
+	{
 		if (x < 0) {		 //if out of monitor x<0
 			erasecolor(0, 0);
 			erase_ship(x + 6, y);
@@ -238,10 +190,10 @@ void erasecolorBullet(int fg, int bg)
 	printf("");
 }
 void drawStar(int x, int y) {
-	gotoxy(x, y), printf("*");
+	gotoxy(x, y); printf("*");
 }
 void eraseStar(int x, int y) {
-	gotoxy(x, y), printf(" ");
+	gotoxy(x, y); printf(" ");
 }
 char cursor(int x, int y) {
 	HANDLE hStd = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -252,4 +204,4 @@ char cursor(int x, int y) {
 		return '\0';
 	else
 		return buf[0];
-}
+}*/
