@@ -2,53 +2,17 @@
 #include<windows.h>
 #include<time.h>
 #include<conio.h>
-void gotoxy(int x, int y)
-{
-	COORD c = { x, y };
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
-}
-void draw_ship(int x, int y)
-{
-	gotoxy(x, y); printf("<-0->");
-}
-void erase_ship(int x, int y)
-{
-	gotoxy(x, y); printf("     ");
-}
-void draw_bullet(int x, int y)
-{
-	gotoxy(x, y); printf("^");
-}
-void clear_bullet(int x, int y)
-{
-	gotoxy(x, y); printf(" ");
-}
-void drawStar(int x, int y) {
-	gotoxy(x, y), printf("*");
-}
-void eraseStar(int x, int y) {
-	gotoxy(x, y); printf(" ");
-}
-void setcolor(int fg, int bg)
-{
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(hConsole, bg * 16 + fg);
-}
-void erasecolorBullet(int fg, int bg)
-{
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(hConsole, bg * 16 + fg);
-	printf("");
-}
-void setcursor(bool visible)
-{
-	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-	CONSOLE_CURSOR_INFO lpCursor;
-	lpCursor.bVisible = visible;
-	lpCursor.dwSize = 20;
-	SetConsoleCursorInfo(console, &lpCursor);
-}
-char cursor(int x, int y);
+void gotoxy(int, int);
+void draw_ship(int, int);
+void erase_ship(int, int);
+void draw_bullet(int, int);
+void clear_bullet(int, int);
+void drawStar(int, int);
+void eraseStar(int, int);
+void setcolor(int, int);
+void erasecolorBullet(int, int);
+void setcursor(bool);
+char cursor(int, int);
 int main() {
 	char ch = '.';
 	int x = 38, y = 20;
@@ -61,6 +25,7 @@ int main() {
 	{
 		randY = rand() % 4 + 2;
 		randX = rand() % 60 + 10;
+		setcolor(6, 0);
 		drawStar(randX, randY);
 		randX = 0;
 		randY = 0;
@@ -75,7 +40,12 @@ int main() {
 			if (ch == 'd') { direction = 2; }
 			if (ch == 's') { direction = 0; }
 			if (bullet != 1 && ch == ' ') {
-				bullet = 1; bx = x + 2; by = y - 1;
+				bullet = 1; 
+				bx = x + 2; by = y - 1;
+				ammo--;
+				gotoxy(0, 0);
+				setcolor(12, 0);
+				printf("Ammo : %d\n", ammo);
 			}
 			fflush(stdin);
 		}
@@ -98,27 +68,29 @@ int main() {
 			if (by == 2) { bullet = 0; }
 			else {
 				if (cursor(bx, by - 1) == '*') {
-					//Beep(700, 100);
+					Beep(800, 100);
 					erasecolorBullet(0, 0);
-					clear_bullet(bx, by);
 					eraseStar(bx, by - 1);
+					clear_bullet(bx, by);
+					
 					do {
 							randY = rand() % 4 + 2;
 							randX = rand() % 60 + 10;
 						} while (cursor(randX, randY)=='*');
-						setcolor(7, 0);
+						setcolor(6, 0);
 						drawStar(randX, randY);
 					randX = 0;
 					randY = 0;
 					bullet = 0;
-					ammo--;
+					//ammo--;
 					score++;
 					gotoxy(0, 0);
-					setcolor(6, 0);
+					setcolor(12, 0);
 					printf("Ammo : %d\n", ammo);
 					printf("Score : %d\n", score);
 					
 				}
+				
 				draw_bullet(bx, --by);	
 				if (bullet == 0) { clear_bullet(bx, by); }
 			}
@@ -161,4 +133,51 @@ char cursor(int x, int y) {
 		return '\0';
 	else
 		return buf[0];
+}
+void gotoxy(int x, int y)
+{
+	COORD c = { x, y };
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
+}
+
+void draw_ship(int x, int y)
+{
+	gotoxy(x, y); printf("<-0->");
+}
+void erase_ship(int x, int y)
+{
+	gotoxy(x, y); printf("     ");
+}
+void draw_bullet(int x, int y)
+{
+	gotoxy(x, y); printf("^");
+}
+void clear_bullet(int x, int y)
+{
+	gotoxy(x, y); printf(" ");
+}
+void drawStar(int x, int y) {
+	gotoxy(x, y), printf("*");
+}
+void eraseStar(int x, int y) {
+	gotoxy(x, y); printf(" ");
+}
+void setcolor(int fg, int bg)
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, bg * 16 + fg);
+}
+void erasecolorBullet(int fg, int bg)
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, bg * 16 + fg);
+	printf("");
+}
+void setcursor(bool visible)
+{
+	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_CURSOR_INFO lpCursor;
+	lpCursor.bVisible = visible;
+	lpCursor.dwSize = 20;
+	SetConsoleCursorInfo(console, &lpCursor);
 }
